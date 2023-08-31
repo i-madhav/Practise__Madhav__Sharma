@@ -25,8 +25,20 @@ function Logo(){
 function Form(){
   const[description,setDescription]=useState("");
   const[quantity,setQuantity] = useState(1);
+
+  function handleSubmit(e){
+    e.preventDefault();
+    if(!description) return null;
+
+    const newItem = {description, id:Date.now(), packed: false,quantity};
+    console.log(newItem)
+
+    setDescription("")
+    setQuantity(1)
+  }
+
   return(
-    <form className="add-form">
+    <form className="add-form" onSubmit={handleSubmit}>
       <h3>Add What you want to Add 👀</h3>
       <select value={quantity} onChange={(e)=>setQuantity(Number(e.target.value))}>
         {Array.from({length:30} , (_,i)=>i+1).map(num => <option value={num} key={num}>
