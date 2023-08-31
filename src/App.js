@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 const initialItems = [
   {id:1,description:"Passport",quantity:2,packed:false},
   {id:2,description:"socks",quantity:12,packed:true},
@@ -21,16 +23,18 @@ function Logo(){
 }
 
 function Form(){
+  const[description,setDescription]=useState("");
+  const[quantity,setQuantity] = useState(1);
   return(
     <form className="add-form">
       <h3>Add What you want to Add 👀</h3>
-      <select>
+      <select value={quantity} onChange={(e)=>setQuantity(Number(e.target.value))}>
         {Array.from({length:30} , (_,i)=>i+1).map(num => <option value={num} key={num}>
           {num}
         </option>)}
       </select>
 
-      <input type="text" placeholder="Type here bitch"/>
+      <input type="text" placeholder="Type here bitch" value={description} onChange={(e)=>setDescription(e.target.value)}/>
       <button>Add Bitch</button>
     </form>
   )
@@ -49,9 +53,9 @@ function PackingList(){
 function Item({itemObj}){
   return(
     <li>
-      <span>{itemObj.quantity} {itemObj.description} </span>
+      <span style={itemObj.packed ? {} : {textDecoration:"line-through"} }>{itemObj.quantity} {itemObj.description} </span>
       <button>😒</button>
-    </li>
+    </li> 
   )
 }
 
