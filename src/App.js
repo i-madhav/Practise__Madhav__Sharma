@@ -58,7 +58,7 @@ function Item({itemObj}){
 function Stats(){
   return(
     <footer className="stats">
-
+      <em>You Know What You Want Bitch 😎</em>
     </footer>
   )
 }
