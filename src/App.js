@@ -1,63 +1,62 @@
-const initialItems = [
-  {id:1,description:"Passport",quantity:2,packed:false},
-  {id:2,description:"socks",quantity:12,packed:true},
-  {id:3,description:"Madhav",quantity:2,packed:true}
-]
+import { useState } from "react"
 
 export default function App(){
-  return (
+  return(
     <div className="app">
-      <Logo/>
+      <Header/>
       <Form/>
-      <PackingList/>
-      <Stats/>
     </div>
   )
 }
 
-function Logo(){
-  return <h1>👀Madhav Project👀</h1>
+function Header(){
+  return <h1>Add Some Sauce Bruuh😶‍🌫️</h1>
 }
 
 function Form(){
-  return(
-    <form className="add-form">
-      <h3>Add Here My Lord🫅</h3>
-      <select>
-        {Array.from({length:20} , (_,i)=>i+1).map(num=><option value={num} key={num}>
-          {num}
-        </option>)}
-      </select>
+  const[description , setDescription] = useState("")
+const[quantity , setQuantity] = useState(1)
 
-      <input type="text" placeholder="Add Here Lord"/>
-      <button>Add Lord🫅</button>
-    </form>
+function handleOnSubmit(e){
+  e.preventDefault();
+
+
+}
+  return(
+         <form className="add-form" onSubmit={handleOnSubmit}>
+         <h3>Add Sauce Here Bruh</h3>
+    <select value={quantity} onChange={(e)=>setQuantity(Number(e.target.value))}>
+      {Array.from({length:10} , (_,i)=>i+1).map(num=><option value={num} key={num}>
+        {num}
+      </option>)}
+    </select>
+
+    <input type="text" placeholder="Saurce💦" value={description} onChange={(e)=>setDescription(e.target.value)}/>
+    <button>Add Sauce</button>
+        </form>
   )
 }
 
 function PackingList(){
   return(
-    <div className="list">
-      <ul>
-      {initialItems.map(itemdata=> <Item itemObj ={itemdata} key={itemdata.id}/>)}
-      </ul>
+    <div>
+
     </div>
   )
 }
 
-function Item({itemObj}){
-  return <li>
-    <span style={itemObj.packed ? {} :{textDecoration:"line-through"} }>
-      {itemObj.quantity} {itemObj.description}
-    </span>
-    <button>😎</button>
-  </li>
+function Item(){
+  return(
+    <li>
+
+    </li>
+  )
 }
 
 function Stats(){
   return(
-    <footer className="stats">
-      <em>You have X items on your list</em>
-    </footer>
+    <div>
+      
+    </div>
   )
 }
