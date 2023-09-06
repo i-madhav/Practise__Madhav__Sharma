@@ -1,87 +1,51 @@
-import { useState } from "react"
+import { useState } from "react";
 
-export default function App(){
-  const[items , setItem]=useState([])
+const faqs = [
+  {
+    title: "Where are these chairs assembled?",
+    text:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium, quaerat temporibus quas dolore provident nisi ut aliquid ratione beatae sequi aspernatur veniam repellendus."
+  },
+  {
+    title: "How long do I have to return my chair?",
+    text:
+      "Pariatur recusandae dignissimos fuga voluptas unde optio nesciunt commodi beatae, explicabo natus."
+  },
+  {
+    title: "Do you ship to countries outside the EU?",
+    text:
+      "Excepturi velit laborum, perspiciatis nemo perferendis reiciendis aliquam possimus dolor sed! Dolore laborum ducimus veritatis facere molestias!"
+  }
+];
 
-function handleAddItem(item){
-setItem(items=>[...items , item])
-}
-
-function handleDeleteItem(id){
-  setItem(items.filter(item=>item.id !== id))
-}
-
-function handleToggleItemm(id){
-  setItem(items=>items.map(item=>item.id === id ? {...item , packed:!item.packed} : item))
-}
-  return(
-    <div className="app">
-      <Header/>
-      <Form onAddItem={handleAddItem}/>
-      <PackingList itemData={items} onDeleteItem={handleDeleteItem} onToggleItem={handleToggleItemm} />
-      <Stats itemData={items} />
+export default function App() {
+  return (
+    <div>
+      <Accordion data={faqs}/>
     </div>
-  )
+  );
 }
 
-function Header(){
-  return <h1>Add Some Sauce Bruuh😶‍🌫️</h1>
-}
-
-function Form({onAddItem}){
-  const[description , setDescription] = useState("")
-const[quantity , setQuantity] = useState(1)
-
-function handleOnSubmit(e){
-  e.preventDefault();
-  if(!description) return null;
-  const newItem = {description,id:new Date().getSeconds() , quantity,packed : false }
-  console.log(newItem)
-setDescription("")
-setQuantity(1)
-
-onAddItem(newItem)
-}
+function Accordion({data}) {
   return(
-         <form className="add-form" onSubmit={handleOnSubmit}>
-         <h3>Add Sauce Here Bruh</h3>
-    <select value={quantity} onChange={(e)=>setQuantity(Number(e.target.value))}>
-      {Array.from({length:10} , (_,i)=>i+1).map(num=><option value={num} key={num}>
-        {num}
-      </option>)}
-    </select>
-
-    <input type="text" placeholder="Saurce💦" value={description} onChange={(e)=>setDescription(e.target.value)}/>
-    <button>Add Sauce</button>
-        </form>
-  )
-}
-
-function PackingList({itemData , onDeleteItem ,onToggleItem}){
-  return(
-    <div className="list">
-      <ul>
-      {itemData.map(item=><Item itemObj={item} key={item.id} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} />)}
-      </ul>
+    <div className="accordion">
+        {data.map((item , index)=><Item text={item.text} title={item.title} num={index} key={item.title}/>)}
     </div>
-  )
+  ) 
 }
 
-function Item({itemObj , onDeleteItem , onToggleItem}){
-  return(
-    <li>
-      <input type="checkbox" value={itemObj} onChange={()=>onToggleItem(itemObj.id)}/>
-      <span style={itemObj.packed ? {textDecoration:"line-through"} :{} }>{itemObj.quantity} {itemObj.description}</span>
-      <button onClick={()=>onDeleteItem(itemObj.id)}>👀</button>
-    </li>
-  )
-}
+function Item({num , text , title}){
+    const[isOpen , setIsOpen] = useState(false)
 
-function Stats({ itemData}){
-  const numItem = itemData.length;
-  return(
-    <footer className="stats ">
-      <em>You have {numItem} item on your list, and you already packed</em>
-    </footer>
-  )
+    function handleOnClick(){
+        setIsOpen( isOpen => !isOpen)
+    }
+    return(
+        <div className={`item ${isOpen ? "open" : ""}`} onClick={handleOnClick}>
+            <p className="number">{`0${num+1}`}</p>
+            <p className="text">{title} </p>
+            <p className="icon">{isOpen ? `-` : `+`}</p>
+            {isOpen && <div className="content-box">{text}</div>}
+        </div>
+    )
 }
